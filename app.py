@@ -2,9 +2,11 @@ import telegram
 from flask import Flask, request
 
 from telebot.credentials import URL, bot_token, bot_user_name
+from telebot.mastermind import get_response
 
 global bot
 global TOKEN
+
 TOKEN = bot_token
 bot = telegram.Bot(token=TOKEN)
 
