@@ -27,9 +27,7 @@ def respond():
   # the first time you chat with the bot AKA the welcoming message
   if text == "/start":
     # print the welcoming message
-    bot_welcome = """
-    Welcome to martyn retranslator bot.
-    """
+    bot_welcome = "Welcome to martyn retranslator bot."
     # send the welcoming message
     bot.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
 
@@ -40,9 +38,7 @@ def respond():
       text = re.sub(r"\W", "_", text)
       # create the api link for the avatar based on http://avatars.adorable.io/
       #  url = "https://api.adorable.io/avatars/285/{}.png".format(text.strip())
-      message = """
-        message
-      """
+      message = "message"
       # reply with a photo to the name the user sent,
       # note that you can send photos by url and telegram will fetch it for you
       bot.sendMessage(chat_id=chat_id,text=message, reply_to_message_id=msg_id)
