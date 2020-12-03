@@ -1,7 +1,7 @@
 import telegram
 from flask import Flask, request
 
-from telebot.credentials import URL, bot_token, bot_user_name
+from telebot.credentials import URL, bot_token, bot_user_name, chat_id
 from telebot.mastermind import get_response
 
 global bot
@@ -17,7 +17,7 @@ def respond():
   # retrieve the message in JSON and then transform it to Telegram object
   update = telegram.Update.de_json(request.get_json(force=True), bot)
 
-  chat_id = update.message.chat.id
+  # chat_id = update.message.chat.id
   msg_id = update.message.message_id
 
   # Telegram understands UTF-8, so encode text for unicode compatibility
