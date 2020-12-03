@@ -18,14 +18,14 @@ def respond():
   update = telegram.Update.de_json(request.get_json(force=True), bot)
 
   # chat_id = update.message.chat.id
-  msg_id = update.message.message_id
+  # msg_id = update.message.message_id
 
   if update.message.text:
     print("UPDATE MESSAGE TEXT : ", update.message.text)
     text = update.message.text.encode('utf-8').decode()
     print("got text encoded message :", text)
     response = get_response(text)
-    bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
+    bot.sendMessage(chat_id=chat_id, text=response)
 
   return 'ok'
 
