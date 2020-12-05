@@ -1,5 +1,6 @@
 import telegram
 from flask import Flask, request
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
 from telebot.credentials import URL, bot_token, bot_user_name, chat_id
 from telebot.mastermind import get_response
@@ -14,18 +15,25 @@ app = Flask(__name__)
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
 def respond():
-  # retrieve the message in JSON and then transform it to Telegram object
-  update = telegram.Update.de_json(request.get_json(force=True), bot)
+  response = request.get_json(force=True)
+  update = Update.de_json(response, bot)
 
   msg_id = update.message.message_id
   from_chat_id = update.message.chat.id
   print("🚀 ~ file: app.py ~ line 22 ~ chat.id", update)
 
   if update.message.text:
-    # print("UPDATE MESSAGE TEXT : ", update.message.text)
-    # text = update.message.text.encode('utf-8').decode()
-    # print("got text encoded message :", text)
-    # response = get_response(text)
+    keyboard = [
+      [
+          InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
+          InlineKeyboardButton("Kode Frontenders", callback_data='-'),
+      ],
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    update.message.reply_text('Please choose:', reply_markup=reply_markup)
+    query = update.callback_query
+    print("🚀 ~ file: app.py ~ line 35 ~ query", query)
+
     bot.forwardMessage(chat_id=chat_id, from_chat_id=from_chat_id, message_id=msg_id)
 
   return 'ok'
