@@ -18,6 +18,8 @@ def respond():
   response = request.get_json(force=True)
   update = Update.de_json(response, bot)
   message = update.message
+  query = update.callback_query
+  print("🚀 ~ file: app.py ~ line 35 ~ query", query)
 
   keyboard = [[
     InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
@@ -29,8 +31,6 @@ def respond():
   try:
     if message.chat.id == 129482161: ## id of personal chat with bot
       message.reply_text('Please choose:', reply_markup=reply_markup)
-      query = update.callback_query
-      print("🚀 ~ file: app.py ~ line 35 ~ query", query)
 
       if message.text:
         msg_id = message.message_id
