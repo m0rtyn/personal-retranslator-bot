@@ -1,0 +1,34 @@
+{
+  "update_id": 438454349,
+  "message": {
+    "message_id": 43,
+    "date": 1607166972,
+    "chat": {
+      "id": 129482161,
+      "type": "private",
+      "username": "martyns0n",
+      "first_name": "U0001f9ff"
+    },
+    "text": "@extropia_tyan, зачем ты переслала это сообщение?",
+    "entities": [{
+      "type": "mention",
+      "offset": 0,
+      "length": 14
+    }],
+    "caption_entities": [],
+    "photo": [],
+    "new_chat_members": [],
+    "new_chat_photo": [],
+    "delete_chat_photo": false,
+    "group_chat_created": false,
+    "supergroup_chat_created": false,
+    "channel_chat_created": false,
+    "from": {
+      "id": 129482161,
+      "first_name": "U0001f9ff",
+      "is_bot": false,
+      "username": "martyns0n",
+      "language_code": "en"
+    }
+  }
+}

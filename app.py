@@ -24,16 +24,17 @@ def respond():
   ]]
   reply_markup = InlineKeyboardMarkup(keyboard)
 
-  update.message.reply_text('Please choose:', reply_markup=reply_markup)
-  query = update.callback_query
-  print("🚀 ~ file: app.py ~ line 35 ~ query", query)
+  if update.message['from'].id == 129482161:
+    update.message.reply_text('Please choose:', reply_markup=reply_markup)
+    query = update.callback_query
+    print("🚀 ~ file: app.py ~ line 35 ~ query", query)
 
-  if update.message.text:
-    msg_id = update.message.message_id
-    from_chat_id = update.message.chat.id
-    print("🚀 ~ file: app.py ~ line 22 ~ chat.id", update)
+    if update.message.text:
+      msg_id = update.message.message_id
+      from_chat_id = update.message.chat.id
+      print("🚀 ~ file: app.py ~ line 22 ~ chat.id", update)
 
-    bot.forwardMessage(chat_id=chat_id, from_chat_id=from_chat_id, message_id=msg_id)
+      bot.forwardMessage(chat_id=chat_id, from_chat_id=from_chat_id, message_id=msg_id)
 
   return 'ok'
 
