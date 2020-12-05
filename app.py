@@ -17,22 +17,29 @@ app = Flask(__name__)
 def respond():
   response = request.get_json(force=True)
   update = Update.de_json(response, bot)
+  message = update.message
 
   keyboard = [[
     InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
     InlineKeyboardButton("Kode Frontenders", callback_data='-'),
   ]]
   reply_markup = InlineKeyboardMarkup(keyboard)
+  print("🚀 ~ file: app.py ~ line 28 ~ update.message", message)
 
-  if update.message['from'].id == 129482161:
-    update.message.reply_text('Please choose:', reply_markup=reply_markup)
+  try:
+    message_from_id = message['from'].id
+  except AttributeError:
+    return 'ok'
+
+  if message_from_id == 129482161: ## martyn's id
+    message.reply_text('Please choose:', reply_markup=reply_markup)
     query = update.callback_query
     print("🚀 ~ file: app.py ~ line 35 ~ query", query)
 
-    if update.message.text:
-      msg_id = update.message.message_id
-      from_chat_id = update.message.chat.id
-      print("🚀 ~ file: app.py ~ line 22 ~ chat.id", update)
+    if message.text:
+      msg_id = message.message_id
+      from_chat_id = message.chat.id
+      print("🚀 ~ file: app.py ~ line 42 ~ FROM_CHAT_ID", from_chat_id)
 
       bot.forwardMessage(chat_id=chat_id, from_chat_id=from_chat_id, message_id=msg_id)
 
