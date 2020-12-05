@@ -27,21 +27,19 @@ def respond():
   print("🚀 ~ file: app.py ~ line 28 ~ update.message", message)
 
   try:
-    message_from_id = message['from'].id
+    if message.chat.id == 129482161: ## id of personal chat with bot
+      message.reply_text('Please choose:', reply_markup=reply_markup)
+      query = update.callback_query
+      print("🚀 ~ file: app.py ~ line 35 ~ query", query)
+
+      if message.text:
+        msg_id = message.message_id
+        from_chat_id = message.chat.id
+        # print("🚀 ~ file: app.py ~ line 42 ~ FROM_CHAT_ID", from_chat_id)
+
+        bot.forwardMessage(chat_id=chat_id, from_chat_id=from_chat_id, message_id=msg_id)
   except AttributeError:
-    return 'ok'
-
-  if message_from_id == 129482161: ## martyn's id
-    message.reply_text('Please choose:', reply_markup=reply_markup)
-    query = update.callback_query
-    print("🚀 ~ file: app.py ~ line 35 ~ query", query)
-
-    if message.text:
-      msg_id = message.message_id
-      from_chat_id = message.chat.id
-      print("🚀 ~ file: app.py ~ line 42 ~ FROM_CHAT_ID", from_chat_id)
-
-      bot.forwardMessage(chat_id=chat_id, from_chat_id=from_chat_id, message_id=msg_id)
+    print("EXCEPTION!", AttributeError)
 
   return 'ok'
 
