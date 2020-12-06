@@ -25,9 +25,9 @@ updater = Updater(TOKEN)
 CHOICE, SEND, DONE = range(3)
 
 def entry(update: Update, context: CallbackContext) -> None:
-    context.user_data['message_text'] = update.effective_message.text
-    context.user_data['chat_id'] = update.effective_message.chat.id
-    context.user_data['message_id'] = update.effective_message.message_id
+    context.user_data['message_text'] = update.message.text
+    context.user_data['chat_id'] = update.message.chat.id
+    context.user_data['message_id'] = update.message.message_id
 
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
@@ -36,7 +36,6 @@ def entry(update: Update, context: CallbackContext) -> None:
 
 def choice(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
-    print(query)
 
     context.user_data['channel_id'] = query.data
 
@@ -49,6 +48,7 @@ def choice(update: Update, context: CallbackContext) -> None:
 def send(update: Update, context: CallbackContext) -> None:
     user_data = context.user_data
 
+    print(user_data)
     # message_text = user_data['message_text']
     chat_id = user_data['chat_id']
     channel_id = user_data['channel_id']
