@@ -31,12 +31,12 @@ def start(update: Update, context: CallbackContext) -> None:
 
 def button(update: Update, context: CallbackContext) -> None:
   query = update.callback_query
-  print("🚀 ~ file: app.py ~ line 34 ~ QUERY", query)
 
   # CallbackQueries need to be answered, even if no notification to the user is needed
   query.answer()
 
   query.edit_message_text(text=f"Selected option: {query.data}")
+  print("🚀 ~ file: app.py ~ line 41 ~ update.message", update.message)
 
   if update.message:
     message = update.message
