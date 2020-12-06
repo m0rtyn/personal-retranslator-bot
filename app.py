@@ -18,6 +18,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+print('it\'s OK to be gay')
+
 
 def entry(update: Update, context: CallbackContext) -> None:
     print("BANG")
