@@ -48,6 +48,7 @@ def choice(update: Update, context: CallbackContext) -> None:
 def send(update: Update, context: CallbackContext) -> None:
     user_data = context.user_data
     # message_text = user_data.message_text
+    print(user_data)
     chat_id = user_data.chat_id
     channel_id = user_data.channel_id
     message_id = user_data.message_id
