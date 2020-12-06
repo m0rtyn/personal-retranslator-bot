@@ -40,21 +40,21 @@ def choice(update: Update, context: CallbackContext) -> None:
 
         # context.user_data['channel_id'] = query.data
 
-        print("🚀 ~ file: app.py ~ line 42 ~ context.user_data", context.user_data)
 
         query.answer()
         query.edit_message_text(text=f"Selected option: {query.data}")
 
         # return SEND
-
-        # chat_id = user_data.chat_id
+        
+        user_data = context.user_data
+        chat_id = user_data.chat_id
         # channel_id = user_data.channel_id
-        # message_id = user_data.message_id
+        message_id = user_data.message_id
 
         # if user_data.chat_id != 129482161: # id of personal chat with bot
         #     return
 
-        updater.bot.forward_message(chat_id="@martynomicon", from_chat_id=129482161, message_id=103, disable_notification=True)
+        updater.bot.forward_message(chat_id=query.data, from_chat_id=chat_id, message_id=message_id, disable_notification=True)
         # updater.bot.forward_message(chat_id=context.user_data.channel_id, from_chat_id=context.user_data.chat_id, message_id=context.user_data.message_id, disable_notification=True)
 
 # def send(update: Update, context: CallbackContext) -> None:
