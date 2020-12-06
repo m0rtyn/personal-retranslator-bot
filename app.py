@@ -38,7 +38,7 @@ def choice(update: Update, context: CallbackContext) -> None:
         query = update.callback_query
         print(query)
 
-        # context.user_data['channel_id'] = query.data
+        context.user_data['channel_id'] = query.data
 
 
         query.answer()
@@ -46,19 +46,18 @@ def choice(update: Update, context: CallbackContext) -> None:
 
         # return SEND
         
-        # user_data = context.user_data
-        # chat_id = user_data.chat_id
-        # channel_id = user_data.channel_id
-        # message_id = user_data.message_id
+        user_data = context.user_data
+        chat_id = user_data['chat_id']
+        channel_id = user_data['channel_id']
+        message_id = user_data['message_id']
 
-        # if user_data.chat_id != 129482161: # id of personal chat with bot
-        #     return
+        if chat_id != 129482161: # id of personal chat with bot
+            return
 
         updater.bot.forward_message(
-            chat_id=query.data, 
-            from_chat_id=context.user_data.chat_id, message_id=context.user_data.message_id, disable_notification=True
+            chat_id=channel_id, 
+            from_chat_id=chat_id, message_id=message_id, disable_notification=True
         )
-        # updater.bot.forward_message(chat_id=context.user_data.channel_id, from_chat_id=context.user_data.chat_id, message_id=context.user_data.message_id, disable_notification=True)
 
 # def send(update: Update, context: CallbackContext) -> None:
 #     print(context.user_data)
