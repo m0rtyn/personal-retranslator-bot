@@ -37,7 +37,7 @@ def entry(update: Update, context: CallbackContext) -> None:
 
 def choice(update: Update, context: CallbackContext) -> None:
     try:
-        print(context)
+        print(context.user_data)
         query = update.callback_query
         
         context.user_data['channel_id'] = query.data
