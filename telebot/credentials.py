@@ -1,4 +1,4 @@
 TOKEN = "1427261129:AAEHCboM0MC81MI5qYv4t2lg6phVcBYXTL4"
-bot_user_name = "martyn_retranslator_bot"
 URL = "retranslator-bot.herokuapp.com"
-chat_id = "-1001292334822"
+BOT_NAME = "martyn_retranslator_bot"
+CHAT_ID = "-1001292334822"
