@@ -37,9 +37,10 @@ def entry(update: Update, context: CallbackContext) -> None:
 def choice(update: Update, context: CallbackContext) -> None:
         query = update.callback_query
         print(query)
-        
+
         context.user_data['channel_id'] = query.data
-        user_data = context.user_data
+
+        print("🚀 ~ file: app.py ~ line 42 ~ context.user_data", context.user_data)
 
         query.answer()
         query.edit_message_text(text=f"Selected option: {query.data}")
@@ -53,7 +54,7 @@ def choice(update: Update, context: CallbackContext) -> None:
         # if user_data.chat_id != 129482161: # id of personal chat with bot
         #     return
 
-        updater.bot.forwardMessage(chat_id=user_data.channel_id, from_chat_id=user_data.chat_id, message_id=user_data.message_id)
+        updater.bot.forwardMessage(chat_id=context.user_data.channel_id, from_chat_id=context.user_data.chat_id, message_id=context.user_data.message_id)
 
 # def send(update: Update, context: CallbackContext) -> None:
 #     print(context.user_data)
