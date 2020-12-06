@@ -9,25 +9,21 @@ from telegram.ext import (CallbackContext, CallbackQueryHandler,
 
 from telebot.credentials import TOKEN, URL, bot_user_name, chat_id
 
-PORT = int(os.environ.get('PORT', '8443'))
-updater = Updater(token=TOKEN)
-dispatcher = updater.dispatcher
-
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
-print('it\'s OK to be gay')
+keyboard = [[
+    InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
+    InlineKeyboardButton("Kode Frontenders", callback_data='@kode_frontend')
+]]
+reply_markup = InlineKeyboardMarkup(keyboard)
 
 
 def entry(update: Update, context: CallbackContext) -> None:
     print("BANG")
-    keyboard = [[
-        InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
-        InlineKeyboardButton("Kode Frontenders", callback_data='@kode_frontend')
-    ]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
+
 
     context.user_data['message_text'] = update.message.text
     context.user_data['chat_id'] = update.message.chat.id
@@ -77,20 +73,22 @@ def done(update: Update, context: CallbackContext) -> int:
 
 
 def main():
-  updater = Updater(TOKEN)
-  updater.start_webhook(listen="0.0.0.0",
+    updater = Updater(TOKEN)
+    dispatcher = updater.dispatcher
+    PORT = int(os.environ.get('PORT', '8443'))
+    updater.start_webhook(listen="0.0.0.0",
                     port=PORT,
                     url_path=TOKEN)
 
-  botUrl = 'https://{URL}/{HOOK}'.format(URL=URL, HOOK=TOKEN)
-  updater.bot.set_webhook(botUrl)
+    botUrl = 'https://{URL}/{HOOK}'.format(URL=URL, HOOK=TOKEN)
+    updater.bot.set_webhook(botUrl)
 
-  dispatcher.add_handler(MessageHandler(Filters.text, entry))
-  dispatcher.add_handler(MessageHandler(Filters.regex('.*'), done))
+    dispatcher.add_handler(MessageHandler(Filters.text, entry))
+    dispatcher.add_handler(MessageHandler(Filters.regex('.*'), done))
 
-  # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
-  # SIGTERM or SIGABRT
-  updater.idle()
+    # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
+    # SIGTERM or SIGABRT
+    updater.idle()
 
 if __name__ == '__main__':
     main()
