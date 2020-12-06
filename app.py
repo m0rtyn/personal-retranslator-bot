@@ -18,10 +18,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-CHOICE, SEND = range(2)
-
 
 def entry(update: Update, context: CallbackContext) -> None:
+    print("BANG")
     keyboard = [[
         InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
         InlineKeyboardButton("Kode Frontenders", callback_data='@kode_frontend')
@@ -31,10 +30,12 @@ def entry(update: Update, context: CallbackContext) -> None:
     context.user_data['message_text'] = update.message.text
     context.user_data['chat_id'] = update.message.chat.id
     context.user_data['message_id'] = update.message.message_id
+    print("🚀 ~ file: app.py ~ line 32", update.message)
 
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
     choice(Update, CallbackContext)
+
 
 def choice(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
@@ -71,6 +72,7 @@ def done(update: Update, context: CallbackContext) -> int:
 
     user_data.clear()
     return 
+
 
 def main():
   updater = Updater(TOKEN)
