@@ -5,11 +5,10 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (CallbackContext, CallbackQueryHandler,
                           CommandHandler, Filters, MessageHandler, Updater)
 
-from telebot.credentials import URL, bot_token, bot_user_name, chat_id
+from telebot.credentials import TOKEN, URL, bot_user_name, chat_id
 
-TOKEN = bot_token
 PORT = int(os.environ.get('PORT', '8443'))
-updater = Updater(token='TOKEN')
+updater = Updater(token=TOKEN)
 dispatcher = updater.dispatcher
 
 logging.basicConfig(
