@@ -33,8 +33,6 @@ def entry(update: Update, context: CallbackContext) -> None:
 
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
-    choice(Update, CallbackContext)
-
 
 def choice(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
@@ -84,7 +82,7 @@ def main() -> None:
     updater.bot.set_webhook(botUrl)
 
     dispatcher.add_handler(MessageHandler(Filters.text, entry))
-    dispatcher.add_handler(MessageHandler(Filters.regex('.*'), done))
+    dispatcher.add_handler(CallbackQueryHandler(choice))
 
     # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT
