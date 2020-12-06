@@ -20,6 +20,7 @@ keyboard = [[
 ]]
 reply_markup = InlineKeyboardMarkup(keyboard)
 
+updater = Updater(TOKEN)
 
 def entry(update: Update, context: CallbackContext) -> None:
     print("BANG")
@@ -61,7 +62,7 @@ def send(update: Update, context: CallbackContext) -> None:
     return done(Update, CallbackContext)
 
 
-def done(update: Update, context: CallbackContext) -> int:
+def done(update: Update, context: CallbackContext) -> None:
     user_data = context.user_data
 
     update.message.reply_text(
@@ -69,11 +70,10 @@ def done(update: Update, context: CallbackContext) -> int:
     )
 
     user_data.clear()
-    return 
+    return
 
 
-def main():
-    updater = Updater(TOKEN)
+def main() -> None:
     dispatcher = updater.dispatcher
     PORT = int(os.environ.get('PORT', '8443'))
     updater.start_webhook(listen="0.0.0.0",
