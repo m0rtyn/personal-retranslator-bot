@@ -55,7 +55,7 @@ def choice(update: Update, context: CallbackContext) -> None:
         if user_data.chat_id != 129482161: # id of personal chat with bot
             return
 
-        updater.bot.forwardMessage(chat_id=chat_id, from_chat_id=user_data.channel_id, message_id=user_data.message_id)
+        # updater.bot.forwardMessage(chat_id=chat_id, from_chat_id=user_data.channel_id, message_id=user_data.message_id)
 
     except Exception as e:
       if hasattr(e, 'message'):
