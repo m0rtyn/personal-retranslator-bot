@@ -22,12 +22,14 @@ keyboard = [map(toInlineKeyboard, groups)]
 reply_markup = InlineKeyboardMarkup(keyboard)
 
 updater = Updater(TOKEN)
-CHOICE, SEND, DONE = range(3)
+CHOICE, SEND = range(2)
 
 def entry(update: Update, context: CallbackContext) -> None:
     context.user_data['message_text'] = update.message.text
     context.user_data['chat_id'] = update.message.chat.id
     context.user_data['message_id'] = update.message.message_id
+
+    print(context.user_data)
 
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
@@ -39,6 +41,7 @@ def choice(update: Update, context: CallbackContext) -> None:
 
     context.user_data['channel_id'] = query.data
 
+    print(context.user_data)
 
     query.answer()
     query.edit_message_text(text=f"Selected option: {query.data}")
