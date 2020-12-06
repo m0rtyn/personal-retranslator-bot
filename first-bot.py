@@ -4,13 +4,12 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
                           MessageHandler, Updater)
 
-from telebot.credentials import URL, bot_token, bot_user_name, chat_id
+from telebot.credentials import TOKEN, URL, bot_user_name, chat_id
 from telebot.mastermind import get_response
 
 global bot
 global TOKEN
 
-TOKEN = bot_token
 bot = telegram.Bot(token=TOKEN)
 keyboard = [[
   InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
