@@ -15,7 +15,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 keyboard = [[
-    InlineKeyboardButton("Чат Мартына", callback_data='martynomicon'),
+    InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
     InlineKeyboardButton("Kode Frontenders", callback_data='kode_frontend')
 ]]
 reply_markup = InlineKeyboardMarkup(keyboard)
