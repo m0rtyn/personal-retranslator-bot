@@ -15,8 +15,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 keyboard = [[
-    InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
-    InlineKeyboardButton("Kode Frontenders", callback_data='@kode_frontend')
+    InlineKeyboardButton("Чат Мартына", callback_data='martynomicon'),
+    InlineKeyboardButton("Kode Frontenders", callback_data='kode_frontend')
 ]]
 reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -54,7 +54,7 @@ def choice(update: Update, context: CallbackContext) -> None:
         # if user_data.chat_id != 129482161: # id of personal chat with bot
         #     return
 
-        updater.bot.forwardMessage(chat_id=context.user_data.channel_id, from_chat_id=context.user_data.chat_id, message_id=context.user_data.message_id)
+        updater.bot.forward_message(chat_id=context.user_data.channel_id, from_chat_id=context.user_data.chat_id, message_id=context.user_data.message_id, disable_notification=True)
 
 # def send(update: Update, context: CallbackContext) -> None:
 #     print(context.user_data)
