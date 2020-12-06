@@ -28,7 +28,6 @@ def entry(update: Update, context: CallbackContext) -> None:
     context.user_data['message_text'] = update.message.text
     context.user_data['chat_id'] = update.message.chat.id
     context.user_data['message_id'] = update.message.message_id
-    print("🚀 ~ file: app.py ~ line 32", context.user_data)
 
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
@@ -36,7 +35,6 @@ def entry(update: Update, context: CallbackContext) -> None:
 
 
 def choice(update: Update, context: CallbackContext) -> None:
-    try:
         print(context.user_data)
         query = update.callback_query
         
@@ -52,16 +50,10 @@ def choice(update: Update, context: CallbackContext) -> None:
         # channel_id = user_data.channel_id
         # message_id = user_data.message_id
 
-        if user_data.chat_id != 129482161: # id of personal chat with bot
-            return
+        # if user_data.chat_id != 129482161: # id of personal chat with bot
+        #     return
 
         # updater.bot.forwardMessage(chat_id=chat_id, from_chat_id=user_data.channel_id, message_id=user_data.message_id)
-
-    except Exception as e:
-      if hasattr(e, 'message'):
-          print(e.message)
-      else:
-          print(e)
 
 # def send(update: Update, context: CallbackContext) -> None:
 #     print(context.user_data)
