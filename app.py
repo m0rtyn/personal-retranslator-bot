@@ -86,6 +86,7 @@ def main():
   updater.bot.set_webhook(botUrl)
 
   dispatcher.add_handler(MessageHandler(Filters.text, entry))
+  dispatcher.add_handler(MessageHandler(Filters.regex('.*'), done))
 
   # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
   # SIGTERM or SIGABRT
