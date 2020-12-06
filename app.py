@@ -1,60 +1,58 @@
-import telegram
-from flask import Flask, request
+import logging
+import os
+
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.ext import (CallbackContext, CallbackQueryHandler,
+                          CommandHandler, Filters, MessageHandler, Updater)
 
 from telebot.credentials import URL, bot_token, bot_user_name, chat_id
-from telebot.mastermind import get_response
-
-global bot
-global TOKEN
 
 TOKEN = bot_token
-bot = telegram.Bot(token=TOKEN)
+PORT = int(os.environ.get('PORT', '8443'))
+updater = Updater(token='TOKEN')
+dispatcher = updater.dispatcher
 
-app = Flask(__name__)
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+)
+logger = logging.getLogger(__name__)
 
-@app.route('/{}'.format(TOKEN), methods=['POST'])
-def respond():
-  response = request.get_json(force=True)
-  update = Update.de_json(response, bot)
-  message = update.message
-  query = update.callback_query
-  print("🚀 ~ file: app.py ~ line 35 ~ query", query)
 
-  keyboard = [[
-    InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
-    InlineKeyboardButton("Kode Frontenders", callback_data='-'),
-  ]]
-  reply_markup = InlineKeyboardMarkup(keyboard)
-  print("🚀 ~ file: app.py ~ line 28 ~ update.message", message)
+def start(update: Update, context: CallbackContext) -> None:
+    keyboard = [[
+        InlineKeyboardButton("Чат Мартына", callback_data='@martynomicon'),
+        InlineKeyboardButton("Kode Frontenders", callback_data='@kode_frontend')
+    ]]
 
-  try:
-    if message.chat.id == 129482161: ## id of personal chat with bot
-      message.reply_text('Please choose:', reply_markup=reply_markup)
 
-      if message.text:
-        msg_id = message.message_id
-        from_chat_id = message.chat.id
-        # print("🚀 ~ file: app.py ~ line 42 ~ FROM_CHAT_ID", from_chat_id)
+    reply_markup = InlineKeyboardMarkup(keyboard)
 
-        bot.forwardMessage(chat_id=chat_id, from_chat_id=from_chat_id, message_id=msg_id)
-  except AttributeError:
-    print("EXCEPTION!", AttributeError)
+    update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
-  return 'ok'
 
-@app.route('/set_webhook', methods=['GET', 'POST'])
-def set_webhook():
-   s = bot.setWebhook('https://{URL}/{HOOK}'.format(URL=URL, HOOK=TOKEN))
-   if s:
-       return "webhook setup ok"
-   else:
-       return "webhook setup failed"
+def button(update: Update, context: CallbackContext) -> None:
+    query = update.callback_query
 
-@app.route('/')
-def index():
-   return '.'
+    # CallbackQueries need to be answered, even if no notification to the user is needed
+    query.answer()
 
+    query.edit_message_text(text=f"Selected option: {query.data}")
+
+def main():
+    updater = Updater(TOKEN)
+    updater.start_webhook(listen="0.0.0.0",
+                      port=PORT,
+                      url_path=TOKEN)
+
+    botUrl = 'https://{URL}/{HOOK}'.format(URL=URL, HOOK=TOKEN)
+    updater.bot.set_webhook(botUrl)
+
+    updater.dispatcher.add_handler(CommandHandler('start', start))
+    updater.dispatcher.add_handler(CallbackQueryHandler(button))
+
+    # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
+    # SIGTERM or SIGABRT
+    updater.idle()
 
 if __name__ == '__main__':
-  app.run(threaded=True)
+    main()
