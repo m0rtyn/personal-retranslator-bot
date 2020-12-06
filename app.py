@@ -46,14 +46,17 @@ def choice(update: Update, context: CallbackContext) -> None:
     query.answer()
     query.edit_message_text(text=f"Selected option: {query.data}")
 
-    send(Updater, CallbackContext)
+    try:
+        send(Updater, CallbackContext)
+    except Exception as e:
+        print(e)
 
 def send(update: Update, context: CallbackContext) -> None:
     user_data = context.user_data
 
     print(user_data)
     # message_text = user_data['message_text']
-    chat_id = user_data['chat_id']
+    # chat_id = user_data['chat_id']
     channel_id = user_data['channel_id']
     message_id = user_data['message_id']
 
@@ -62,7 +65,7 @@ def send(update: Update, context: CallbackContext) -> None:
 
     updater.bot.forward_message(
         chat_id=channel_id, 
-        from_chat_id=chat_id, message_id=message_id, disable_notification=True
+        from_chat_id=129482161, message_id=message_id, disable_notification=True
     )
 
     return 
