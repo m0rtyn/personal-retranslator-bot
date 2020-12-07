@@ -8,6 +8,7 @@ from telegram.ext import (CallbackContext, CallbackQueryHandler,
                           MessageHandler, Updater)
 
 from telebot.credentials import CHAT_ID, TOKEN, URL
+from telebot.groups import groups
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
