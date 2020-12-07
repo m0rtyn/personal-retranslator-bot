@@ -1,4 +1,3 @@
 groups = [
-  '@martynomicon',
-  
+  '@martynomicon', 
 ]
