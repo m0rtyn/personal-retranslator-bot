@@ -24,6 +24,8 @@ reply_markup = InlineKeyboardMarkup(keyboard)
 updater = Updater(TOKEN)
 CHOICE, SEND, DONE = range(3)
 
+END = ConversationHandler.END
+
 def entry(update: Update, context: CallbackContext) -> None:
     context.user_data['message_text'] = update.effective_message.text
     context.user_data['chat_id'] = update.effective_message.chat.id
@@ -56,6 +58,8 @@ def choice(update: Update, context: CallbackContext) -> None:
         from_chat_id=chat_id, message_id=message_id, disable_notification=True
     )
 
+    return DONE
+
 # def send(update: Update, context: CallbackContext) -> None:
 #     print(context.user_data)
 #     user_data = context.user_data
@@ -80,7 +84,8 @@ def done(update: Update, context: CallbackContext) -> None:
     )
 
     user_data.clear()
-    return
+    
+    return END
 
 
 def main() -> None:
@@ -104,6 +109,9 @@ def main() -> None:
             # SEND: [
             #     CallbackQueryHandler(send)
             # ],
+            DONE: [
+                CommandHandler('done', done)
+            ]
         },
         fallbacks=[
             CommandHandler('start', done),
