@@ -101,7 +101,7 @@ def main() -> None:
     updater.bot.set_webhook(botUrl)
 
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.text, entry)],
+        entry_points=[MessageHandler(Filters.regex('^Пёс, .*'), entry)],
         states={
             CHOICE: [
                 CallbackQueryHandler(choice),
