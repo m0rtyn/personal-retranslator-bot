@@ -35,26 +35,25 @@ def entry(update: Update, context: CallbackContext) -> None:
 
 
 def choice(update: Update, context: CallbackContext) -> None:
-        query = update.callback_query
+    query = update.callback_query
 
-        context.user_data['channel_id'] = query.data
+    context.user_data['channel_id'] = query.data
 
+    query.answer()
+    query.edit_message_text(text=f"Selected option: {query.data}")
 
-        query.answer()
-        query.edit_message_text(text=f"Selected option: {query.data}")
+    user_data = context.user_data
+    chat_id = user_data['chat_id']
+    channel_id = user_data['channel_id']
+    message_id = user_data['message_id']
 
-        user_data = context.user_data
-        chat_id = user_data['chat_id']
-        channel_id = user_data['channel_id']
-        message_id = user_data['message_id']
+    if chat_id != CHAT_ID: # id of personal chat with bot
+        return
 
-        if chat_id != CHAT_ID: # id of personal chat with bot
-            return
-
-        updater.bot.forward_message(
-            chat_id=channel_id, 
-            from_chat_id=chat_id, message_id=message_id, disable_notification=True
-        )
+    updater.bot.forward_message(
+        chat_id=channel_id, 
+        from_chat_id=chat_id, message_id=message_id, disable_notification=True
+    )
 
 # def send(update: Update, context: CallbackContext) -> None:
 #     print(context.user_data)
@@ -105,7 +104,10 @@ def main() -> None:
             #     CallbackQueryHandler(send)
             # ],
         },
-        fallbacks=[CommandHandler('start', done)],
+        fallbacks=[
+            CommandHandler('start', done),
+            MessageHandler(Filters.text, entry)
+        ],
     )
 
     dispatcher.add_handler(conv_handler)
