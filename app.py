@@ -31,6 +31,7 @@ def entry(update: Update, context: CallbackContext) -> None:
     context.user_data['chat_id'] = update.effective_message.chat.id
     context.user_data['message_id'] = update.effective_message.message_id
 
+    print(reply_markup)
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
     return CHOICE
