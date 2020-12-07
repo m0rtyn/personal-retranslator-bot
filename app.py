@@ -48,6 +48,7 @@ def choice(update: Update, context: CallbackContext) -> None:
     message_id = user_data['message_id']
 
     if chat_id != CHAT_ID: # id of personal chat with bot
+        print('🤷‍♂️', chat_id, CHAT_ID)
         return
 
     updater.bot.forward_message(
