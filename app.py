@@ -15,11 +15,17 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def toInlineKeyboard(str):
-    return InlineKeyboardButton(str, callback_data=str)
+# def toInlineKeyboard(str):
+#     return InlineKeyboardButton(str, callback_data=str)
 
-keyboard = [map(toInlineKeyboard, groups)]
-print('keyboard', keyboard)
+def fillKeyboard():
+    result = []
+    for key, value in groups.items():
+        result.append(InlineKeyboardButton(key, callback_data=value))
+
+    return [result]
+
+keyboard = fillKeyboard()
 reply_markup = InlineKeyboardMarkup(keyboard)
 
 updater = Updater(TOKEN)
@@ -33,7 +39,7 @@ def entry(update: Update, context: CallbackContext) -> None:
     context.user_data['chat_id'] = message.chat.id
     context.user_data['message_id'] = message.message_id
 
-    print(reply_markup)
+    # print(reply_markup)
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
     return CHOICE
@@ -80,13 +86,11 @@ def choice(update: Update, context: CallbackContext) -> None:
 
 
 def done(update: Update, context: CallbackContext) -> None:
-    user_data = context.user_data
-
     update.message.reply_text(
         f"Until next time!"
     )
 
-    user_data.clear()
+    context.user_data.clear()
     
     return END
 
