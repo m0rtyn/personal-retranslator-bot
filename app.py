@@ -11,7 +11,7 @@ from telebot.credentials import CHAT_ID, TOKEN, URL
 from telebot.groups import groups
 
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
 )
 logger = logging.getLogger(__name__)
 
@@ -19,6 +19,7 @@ def toInlineKeyboard(str):
     return InlineKeyboardButton(str, callback_data=str)
 
 keyboard = [map(toInlineKeyboard, groups)]
+print('keyboard', keyboard)
 reply_markup = InlineKeyboardMarkup(keyboard)
 
 updater = Updater(TOKEN)
@@ -27,9 +28,10 @@ CHOICE, SEND, DONE = range(3)
 END = ConversationHandler.END
 
 def entry(update: Update, context: CallbackContext) -> None:
-    context.user_data['message_text'] = update.effective_message.text
-    context.user_data['chat_id'] = update.effective_message.chat.id
-    context.user_data['message_id'] = update.effective_message.message_id
+    message = update.effective_message
+    context.user_data['message_text'] = message.text
+    context.user_data['chat_id'] = message.chat.id
+    context.user_data['message_id'] = message.message_id
 
     print(reply_markup)
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
