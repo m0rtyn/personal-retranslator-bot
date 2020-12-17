@@ -87,14 +87,14 @@ def done(update: Update, context: CallbackContext) -> None:
 
 def main() -> None:
     dispatcher = updater.dispatcher
-    # PORT = int(os.environ.get('PORT', '8443'))
+    PORT = int(os.environ.get('PORT', '8443'))
     updater.start_webhook(
-        listen="localhost",
-        port=3000,
+        listen="0.0.0.0",
+        port=PORT,
         url_path=TOKEN
     )
 
-    botUrl = 'https://{URL}/{HOOK}'.format(URL=TEST_URL, HOOK=TOKEN)
+    botUrl = 'https://{URL}/{HOOK}'.format(URL=URL, HOOK=TOKEN)
     updater.bot.set_webhook(botUrl)
 
     conv_handler = ConversationHandler(
