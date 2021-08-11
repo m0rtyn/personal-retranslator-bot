@@ -8,27 +8,12 @@ from telegram.ext import (CallbackContext, CallbackQueryHandler,
 
 from telebot.credentials import CHAT_ID, TEST_URL, TOKEN, URL
 from telebot.groups import groups
+from utils import splitArr, fillKeyboard
 
 logging.basicConfig(
     format='ℹ️  %(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
 )
 logger = logging.getLogger(__name__)
-
-def splitArr(arr, size):
-    arrs = []
-    while len(arr) > size:
-        pice = arr[:size]
-        arrs.append(pice)
-        arr = arr[size:]
-    arrs.append(arr)
-    return arrs
-
-def fillKeyboard(dict):
-    result = []
-    for key, value in dict.items():
-        result.append(InlineKeyboardButton(key, callback_data=value))
-
-    return splitArr(result, 2)
 
 keyboard = fillKeyboard(groups)
 reply_markup = InlineKeyboardMarkup(keyboard)
@@ -104,7 +89,7 @@ def main() -> None:
                 CallbackQueryHandler(choice),
             ],
             SEND: [
-                CommandHandler('tyaf', done),
+                CommandHandler('bark', done),
                 CommandHandler('woof', entry),
                 MessageHandler(Filters.all, send),
             ],
@@ -112,7 +97,7 @@ def main() -> None:
         fallbacks=[
             MessageHandler(Filters.all, done),
             CommandHandler('woof', entry),
-            CommandHandler('tyaf', done),
+            CommandHandler('bark', done),
         ],
     )
 
