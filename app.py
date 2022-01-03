@@ -63,21 +63,23 @@ def send(update: Update, context: CallbackContext) -> None:
 
 def post(update: Update, context: CallbackContext) -> None:
     message = update.message
-    post_id = message.message_id
     someta_channel_id = '-1001304984709' # test chat
     # scheduling_timeout = 7 * 24 * 60 * 60 # seconds of one week
     scheduling_timeout = 60 # seconds of one minute
-    update.message.reply_text(
-        "Woooooof"
-    )
-    post_text="TEEEST"
+    post_text=message.text
+    
+    
     updater.bot.send_message(
         chat_id=someta_channel_id,
         text=post_text, 
         disable_notification=True, 
         timeout=scheduling_timeout, 
         parse_mode="Markdown"
-    )    
+    )
+        
+    update.message.reply_text(
+        "Woooooof"
+    )
     
     return END
 
