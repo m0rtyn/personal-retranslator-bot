@@ -67,6 +67,9 @@ def post(update: Update, context: CallbackContext) -> None:
     someta_channel_id = '-1001304984709' # test chat
     # scheduling_timeout = 7 * 24 * 60 * 60 # seconds of one week
     scheduling_timeout = 60 # seconds of one minute
+    update.message.reply_text(
+        "Woooooof"
+    )
     updater.bot.send_message(
         chat_id=someta_channel_id, 
         message_id=post_id, 
@@ -74,9 +77,6 @@ def post(update: Update, context: CallbackContext) -> None:
         timeout=scheduling_timeout, 
         parse_mode="Markdown"
     )    
-    update.message.reply_text(
-        "Woooooof"
-    )
     
     return END
 
@@ -115,7 +115,7 @@ def main() -> None:
             ],
         },
         fallbacks=[
-            MessageHandler(Filters.regex(re.compile(r'POST', re.IGNORECASE)), post),
+            MessageHandler(Filters.regex(r'POST'), post),
             MessageHandler(Filters.all, done),
             CommandHandler('start', entry),
             CommandHandler('finish', done),
