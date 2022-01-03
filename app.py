@@ -65,9 +65,8 @@ def post(update: Update, context: CallbackContext) -> None:
     message = update.message
     someta_channel_id = '-1001304984709' # test chat
     # scheduling_timeout = 7 * 24 * 60 * 60 # seconds of one week
-    scheduling_timeout = 60 # seconds of one minute
-    post_text=message.text
-    
+    scheduling_timeout = 120 # seconds of one minute
+    post_text=message.text.replace('POST', '')
     
     updater.bot.send_message(
         chat_id=someta_channel_id,
