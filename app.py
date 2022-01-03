@@ -20,6 +20,8 @@ keyboard = fillKeyboard(groups)
 reply_markup = InlineKeyboardMarkup(keyboard)
 
 updater = Updater(TOKEN)
+job_queue = updater.job_queue
+
 CHOICE, SEND, DONE = range(3)
 
 END = ConversationHandler.END
@@ -68,13 +70,21 @@ def post(update: Update, context: CallbackContext) -> None:
     scheduling_timeout = 120 # seconds of one minute
     post_text=message.text.replace('POST', '')
     
-    updater.bot.send_message(
-        chat_id=someta_channel_id,
-        text=post_text, 
-        disable_notification=True, 
-        timeout=scheduling_timeout, 
-        parse_mode="Markdown"
+    job_queue.run_once(lambda x: updater.bot.send_message(
+            chat_id=someta_channel_id,
+            text=post_text, 
+            disable_notification=True, 
+            timeout=scheduling_timeout, 
+            parse_mode="Markdown"
+        ), 60
     )
+    # updater.bot.send_message(
+    #     chat_id=someta_channel_id,
+    #     text=post_text, 
+    #     disable_notification=True, 
+    #     timeout=scheduling_timeout, 
+    #     parse_mode="Markdown"
+    # )
         
     update.message.reply_text(
         "Woooooof"
