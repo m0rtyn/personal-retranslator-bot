@@ -108,7 +108,6 @@ def main() -> None:
             SEND: [
                 CommandHandler('finish', done),
                 CommandHandler('start', entry),
-                MessageHandler(Filters.regex(re.compile(r'POST', re.IGNORECASE)), post),
                 MessageHandler(Filters.all, send),
             ],
             CHOICE: [
@@ -116,6 +115,7 @@ def main() -> None:
             ],
         },
         fallbacks=[
+            MessageHandler(Filters.regex(re.compile(r'POST', re.IGNORECASE)), post),
             MessageHandler(Filters.all, done),
             CommandHandler('start', entry),
             CommandHandler('finish', done),
