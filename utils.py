@@ -1,3 +1,5 @@
+from telegram import InlineKeyboardButton
+
 def splitArr(arr, size):
     arrs = []
     while len(arr) > size:

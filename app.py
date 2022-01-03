@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (CallbackContext, CallbackQueryHandler,
@@ -48,7 +49,7 @@ def send(update: Update, context: CallbackContext) -> None:
     channel_id = user_data['channel_id']
 
     if chat_id == CHAT_ID: # id of personal chat with bot
-        update.message.reply_text('Гав')
+        update.message.reply_text('Bark!')
         updater.bot.forwardMessage(
             chat_id=channel_id, from_chat_id=chat_id, message_id=message_id,
             disable_notification=True
@@ -59,6 +60,25 @@ def send(update: Update, context: CallbackContext) -> None:
     if chat_id != CHAT_ID:
         
         return END
+
+def post(update: Update, context: CallbackContext) -> None:
+    message = update.message
+    post_id = message.message_id
+    someta_channel_id = '-1001304984709' # test chat
+    # scheduling_timeout = 7 * 24 * 60 * 60 # seconds of one week
+    scheduling_timeout = 60 # seconds of one minute
+    updater.bot.send_message(
+        chat_id=someta_channel_id, 
+        message_id=post_id, 
+        disable_notification=True, 
+        timeout=scheduling_timeout, 
+        parse_mode="Markdown"
+    )    
+    update.message.reply_text(
+        "Woooooof"
+    )
+    
+    return END
 
 def done(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(
@@ -83,21 +103,22 @@ def main() -> None:
     updater.bot.set_webhook(botUrl)
 
     conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('woof', entry)],
+        entry_points=[CommandHandler('start', entry)],
         states={
+            SEND: [
+                CommandHandler('finish', done),
+                CommandHandler('start', entry),
+                MessageHandler(Filters.regex(re.compile(r'POST', re.IGNORECASE)), post),
+                MessageHandler(Filters.all, send),
+            ],
             CHOICE: [
                 CallbackQueryHandler(choice),
-            ],
-            SEND: [
-                CommandHandler('bark', done),
-                CommandHandler('woof', entry),
-                MessageHandler(Filters.all, send),
             ],
         },
         fallbacks=[
             MessageHandler(Filters.all, done),
-            CommandHandler('woof', entry),
-            CommandHandler('bark', done),
+            CommandHandler('start', entry),
+            CommandHandler('finish', done),
         ],
     )
 
