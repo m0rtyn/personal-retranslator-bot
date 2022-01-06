@@ -1,0 +1,11 @@
+###
+# POST https://api.telegram.org/bot1427261129:AAEHCboM0MC81MI5qYv4t2lg6phVcBYXTL4/sendMessage HTTP/1.1
+
+POST https://hook.integromat.com/mpyrchdjpakimr13v4foj5b4r2cwiic5 HTTP/1.1
+content-type: application/json
+
+{
+  "text": "__test__\n_test_\n`test`\n~~test~~",
+  "chat_id": "-100",
+  "delay": "100"
+}

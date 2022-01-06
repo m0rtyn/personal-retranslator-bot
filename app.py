@@ -2,12 +2,12 @@ import logging
 import os
 import re
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import InlineKeyboardMarkup, Update
 from telegram.ext import (CallbackContext, CallbackQueryHandler,
                           CommandHandler, ConversationHandler, Filters,
                           MessageHandler, Updater)
 
-from telebot.credentials import CHAT_ID, TEST_URL, TOKEN, URL
+from telebot.credentials import CHAT_ID, TOKEN, URL
 from telebot.groups import groups
 from utils import splitArr, fillKeyboard
 
@@ -66,26 +66,18 @@ def send(update: Update, context: CallbackContext) -> None:
 def post(update: Update, context: CallbackContext) -> None:
     message = update.message
     someta_channel_id = '-1001304984709' # test chat
-    # scheduling_timeout = 7 * 24 * 60 * 60 # seconds of one week
-    scheduling_timeout = 120 # seconds of one minute
     post_text=message.text.replace('POST', '')
+    # scheduling_timeout = 7 * 24 * 60 * 60 # seconds of one week
+    scheduling_timeout = 120
     
     job_queue.run_once(lambda x: updater.bot.send_message(
             chat_id=someta_channel_id,
             text=post_text, 
             disable_notification=True, 
-            timeout=scheduling_timeout, 
             parse_mode="Markdown"
-        ), 60
+        ), scheduling_timeout
     )
-    # updater.bot.send_message(
-    #     chat_id=someta_channel_id,
-    #     text=post_text, 
-    #     disable_notification=True, 
-    #     timeout=scheduling_timeout, 
-    #     parse_mode="Markdown"
-    # )
-        
+     
     update.message.reply_text(
         "Woooooof"
     )
@@ -100,7 +92,6 @@ def done(update: Update, context: CallbackContext) -> None:
     context.user_data.clear()
     
     return END
-
 
 def main() -> None:
     dispatcher = updater.dispatcher
